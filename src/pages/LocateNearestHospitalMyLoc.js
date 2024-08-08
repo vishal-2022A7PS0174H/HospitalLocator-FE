@@ -134,7 +134,7 @@ const LocateNearestHospitalMyLoc = () => {
     if (hospitalData) hospitalDataList = JSON.parse(hospitalData);
     let latNearestHospital = 0;
     let longNearestHospital = 0;
-
+    let validHospTemp = [];
     for (let i = 0; i < hospitalDataList?.length; i++) {
       let dist = getDistanceFromLatLonInKm(
         Latitude,
@@ -144,10 +144,11 @@ const LocateNearestHospitalMyLoc = () => {
       );
       //populateTableData(dist);
       if (hospitalDataList[i].SpecialitiesAvailable.includes(dept)) {
-        let validHospTemp = validHospital;
+       
         hospitalDataList[i].distance = dist;
+        if(validHospTemp.length<5)
         validHospTemp.push(hospitalDataList[i]);
-        setValidHospital(validHospTemp);
+        
         console.log(validHospital, "validHospital");
       }
       if (
@@ -160,6 +161,7 @@ const LocateNearestHospitalMyLoc = () => {
         longNearestHospital = hospitalDataList[i]["Longitude"];
       }
     }
+    setValidHospital(validHospTemp);
     setNearestHospital(nearestHospitalName);
     FindAddress(latNearestHospital, longNearestHospital);
     setDistanceHospital(minDist);
